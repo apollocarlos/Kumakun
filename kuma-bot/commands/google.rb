@@ -1,15 +1,7 @@
-require 'json'
-
 module KumaBot
   module Commands
-    class Search < SlackRubyBot::Commands::Base
-      match(/^kumakun gohan\s+(?<expression>.+)$/) do |client, data, match|
-        expression = match['expression'].strip
-        send_message client, data.channel, "help me, gohan kun~~~~~"
-        send_message client, data.channel, "gohan google #{expression}"
-      end
-
-      match(/^kumakun search\s+(?<category>.+?)\s+(?<expression>.+)$/) do |client, data, match|
+    class Google < SlackRubyBot::Commands::Base
+      match(/^kumakun g\s+(?<category>.+?)\s+(?<expression>.+)$/) do |client, data, match|
         category = match['category']
         expression = match['expression'].strip
 
@@ -26,20 +18,8 @@ module KumaBot
           handle_google_search(category, expression, client, data)
         when "video" then
           handle_google_search(category, expression, client, data)
-        when "sticker" then
-          expression.gsub!(/\s+/, "+")
-          response = `curl 'http://api.giphy.com/v1/stickers/random?api_key=dc6zaTOxFJmzC&tag=#{expression}'`
-          result = JSON.parse(response)
-          unless result["data"].empty?
-            link = result["data"]["url"]
-            send_message client, data.channel, "I've got one for you:\n#{link}"
-          else
-            send_message client, data.channel, "I didn't find such sticker T_T"
-          end
-        when "gif" then
-          send_message_with_gif client, data.channel, "I've got one for you:", expression
         else
-          send_message client, data.channel, "I don't know >___<"
+          send_message client, data.channel, "I don't know >__<"
         end
       end
 
