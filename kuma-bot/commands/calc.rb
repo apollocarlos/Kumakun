@@ -13,7 +13,6 @@ module KumaBot
           else
             send_message_with_gif client, data.channel, 'I got nothing...'
           end
-        raise StandardError
         rescue StandardError => e
           send_message client, data.channel, "I got \"#{e.message}\". Check your expression again?"
         end
