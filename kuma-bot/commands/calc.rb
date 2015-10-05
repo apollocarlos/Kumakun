@@ -3,7 +3,7 @@ require 'dentaku'
 module KumaBot
   module Commands
     class Calc < SlackRubyBot::Commands::Base
-      match(/^kumakun =(?<category>.+?)\s+(?<expression>.+)$/) do |client, data, match|
+      match(/^kumakun =(?<expression>.+)$/) do |client, data, match|
         begin
           expression = match['expression'].strip
           result = Dentaku::Calculator.new.evaluate(expression)
