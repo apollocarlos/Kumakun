@@ -6,7 +6,7 @@ module KumaBot
           to = match['to']
           expression = match['expression'].strip
 
-          if expresison =~ /^(.+) --from (.+)$/
+          if expression =~ /^(.+) --from (.+)$/
             phase = $1
             from = $2
             send_message client, data.channel, "#{from} => #{to}"
