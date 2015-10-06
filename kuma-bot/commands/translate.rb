@@ -1,6 +1,8 @@
 module KumaBot
   module Commands
     class Translate < SlackRubyBot::Commands::Base
+      translator = BingTranslator.new('KumaBotBingTranslator', 'J0/t1Nhw+wLyXX7tOvzN1EAwbFbv4PYXNzzldj/RDSU=')
+
       match(/^kumakun t\s+(?<to>.+?)\s+(?<expression>.+)$/) do |client, data, match|
         begin
           to = match['to']
@@ -12,12 +14,10 @@ module KumaBot
             send_message client, data.channel, "#{from} => #{to}"
           else
             phase = expression
-            detection = EasyTranslate.detect(phase, :confidence => true)
-            from = detection[:language]
-            confidence = detection[:confidence]
-            send_message client, data.channel, "#{from}(#{confidence}) => #{to}"
+            from = translator.detect(phase)
+            send_message client, data.channel, "#{from} *maybe:)* => #{to}"
           end
-          send_message client, data.channel, "*" + EasyTranslate.translate(phase, :from => from, :to => to) + "*"
+          send_message client, data.channel, "*" + translator.translate(phase, :from => from, :to => to) + "*"
         rescue StandardError => e
           send_message client, data.channel, "I got \"#{e.message}\". Check your expression again?"
         end

@@ -5,7 +5,7 @@ gem 'puma'
 gem 'sinatra'
 gem 'google-search'
 gem 'dentaku'
-gem 'easy_translate'
+gem 'bing_translator', '~> 4.5.0'
 
 gem 'rake'
 gem 'foreman'
