@@ -6,10 +6,12 @@ module KumaBot
 
       match(/^kumakun t list$/) do |client, data, match|
         begin
+	  send_message client, data.channel, "Trying to fetch list..."
           result = ""
           translator.supported_language_codes.each do |code|
-            result << "#{code}\t" + translator.language_names(code) + "\n"
+            result += translator.language_names(code) + "  ==> #{code}\n"
           end
+          send_message client, data.channel, "I can speak lots of languages!"
           send_message client, data.channel, "```#{result}```"
         rescue StandardError => e
           send_message client, data.channel, "I got \"#{e.message}\". Check your expression again?"
