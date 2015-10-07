@@ -6,7 +6,8 @@ module KumaBot
 
       match(/^kumakun t$/) do |client, data, match|
         begin
-          send_message client, data.channel, translator.supported_language_codes
+          result = translator.supported_language_codes
+          send_message client, data.channel, result.inspect
         rescue StandardError => e
           send_message client, data.channel, "I got \"#{e.message}\". Check your expression again?"
         end
