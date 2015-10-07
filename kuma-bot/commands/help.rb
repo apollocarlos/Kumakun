@@ -7,6 +7,7 @@ module KumaBot
 	*Giphy: Search Animated GIFs on the Web*```kumakun {gif,sticker} {query}  # random fetch```
 	*Fx rate*```kumakun fxrate {from} {to} [--date yyyy-MM-dd]```
 	*Calculator*```kumakun ={expression}```
+	*Translator*```kumakun t {to} {phase} [--from {from}]```
 	"
       end
     end
