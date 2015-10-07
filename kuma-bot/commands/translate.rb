@@ -8,7 +8,7 @@ module KumaBot
         begin
           result = ""
           translator.supported_language_codes.each do |code|
-            result << "#{code}\t" + translator.language_names[code] + "\n"
+            result << "#{code}\t" + translator.language_names(code) + "\n"
           end
           send_message client, data.channel, "```#{result}```"
         rescue StandardError => e
