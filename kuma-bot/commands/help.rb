@@ -8,6 +8,7 @@ module KumaBot
 	*Fx rate*```kumakun fxrate {from} {to} [--date yyyy-MM-dd]```
 	*Calculator*```kumakun ={expression}```
 	*Translator: Bing Translate*```kumakun t {to} {phase} [--from {from}]\nkumakun t list```
+	*Weather: Yahoo! Weather*```kumakun w {location}```
 	"
       end
     end
