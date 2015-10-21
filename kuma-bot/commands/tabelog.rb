@@ -31,7 +31,7 @@ module KumaBot
           html = `curl #{search_url}`
           if html =~ /全 <span class="text-num fs15"><strong>(\d+)<\/strong><\/span> 件/
             if $1.to_i > 1200
-              max_page = 20
+              max_page = 10
             else
               max_page = ($1.to_f / 20).ceil
             end
@@ -86,7 +86,7 @@ module KumaBot
         }
       end
 
-      def trim(string)
+      def self.trim(string)
         string.gsub(%r{(^[\s#{$/}]+|[\s#{$/}]+$)}) { "" }
       end
 
