@@ -52,13 +52,13 @@ module KumaBot
             limit.times do |i|
               index = Random.new.rand(restaurant_links.length)
               url = restaurant_links.delete_at(index)
-              info = parse(url)
+              info = get_info(url)
               send_message client, data.channel, "#{info["name"]}\n  #{info["genre"]}\n  #{info["rate"]}\n  #{info["addr"]}\n  #{info["url"]}"
             end
           when "top"
             limit.times do |i|
               url = restaurant_links.delete_at(0)
-              info = parse(url)
+              info = get_info(url)
               send_message client, data.channel, "#{info["name"]}\n  #{info["genre"]}\n  #{info["rate"]}\n  #{info["addr"]}\n  #{info["url"]}"
             end
           end
@@ -73,7 +73,7 @@ module KumaBot
         end
       end
 
-      def self.parse(restaurant_url)
+      def self.get_info(restaurant_url)
         html = `curl #{restaurant_url}`
         document = Nokogiri::HTML(html)
         table = document.css("#contents-rstdata table.rst-data").first
