@@ -1,6 +1,5 @@
 require 'levenshtein'
 require 'nokogiri'
-require 'open-uri'
 
 module KumaBot
   module Commands
@@ -74,7 +73,8 @@ module KumaBot
       end
 
       def self.parse(restaurant_url)
-        document = Nokogiri::HTML(open(restaurant_url))
+        html = `curl #{restaurant_url}`
+        document = Nokogiri::HTML(html)
         table = document.css("#contents-rstdata table.rst-data").first
         nodes = table.css("tr")
         {
