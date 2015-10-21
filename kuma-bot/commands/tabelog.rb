@@ -30,11 +30,8 @@ module KumaBot
           search_url = "http://tabelog.com/#{station_code}/rstLst/1/?SrtT=rt&sk=#{query}"
           html = `curl #{search_url}`
           if html =~ /全 <span class="text-num fs15"><strong>(\d+)<\/strong><\/span> 件/
-            if $1.to_i > 1200
-              max_page = 60
-            else
-              max_page = ($1.to_f / 20).ceil
-            end
+            max_page = ($1.to_f / 20).ceil
+            max_page = 20 if max_page > 20
           end
 
           restaurant_links = Array.new
@@ -42,20 +39,20 @@ module KumaBot
             search_url = "http://tabelog.com/#{station_code}/rstLst/#{page}/?SrtT=rt&sk=#{query}"
             html = `curl #{search_url}`
             html.scan(/data-rd-url=".*?(http:\/\/tabelog\.com.+?)" rel="ranking-num"/).each do |url|
-              restaurant_links << url
+              restaurant_links << url[0]
             end
           end
 
           case mode
           when "random"
-            (1..limit).each do |i|
+            (1..limit.to_i).each do |i|
               index = Random.new.rand(restaurant_links.length)
               url = restaurant_links.delete_at(index)
               info = get_info(url)
               send_message client, data.channel, "#{info["name"]}\n  #{info["genre"]}\n  #{info["rate"]}\n  #{info["addr"]}\n  #{info["url"]}"
             end
           when "top"
-            (1..limit).each do |i|
+            (1..limit.to_i).each do |i|
               url = restaurant_links.delete_at(0)
               info = get_info(url)
               send_message client, data.channel, "#{info["name"]}\n  #{info["genre"]}\n  #{info["rate"]}\n  #{info["addr"]}\n  #{info["url"]}"
