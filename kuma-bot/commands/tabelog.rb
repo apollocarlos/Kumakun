@@ -38,7 +38,7 @@ module KumaBot
           end
 
           restaurant_links = Array.new
-          (1..max_page).each do |page|
+          (1..max_page.to_i).each do |page|
             search_url = "http://tabelog.com/#{station_code}/rstLst/#{page}/?SrtT=rt&sk=#{query}"
             html = `curl #{search_url}`
             html.scan(/data-rd-url="(.+?)" rel="ranking-num"/).each do |url|
