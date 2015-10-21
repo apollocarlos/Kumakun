@@ -46,7 +46,41 @@ module KumaBot
             end
           end
 
-	  send_message client, data.channel, restaurant_links.inspect
+          case mode
+          when "random"
+            limit.times do |i|
+              index = Random.new.rand(restaurant_links.length)
+              url = restaurant_links.delete_at(index)
+              html = `curl #{url}`
+              document = Nokogiri::HTML(html)
+              table = document.css("#contents-rstdata table.rst-data").first
+              nodes = table.css("tr")
+              info = {
+                "name"  => nodes[0].css("strong").inner_text,
+                "genre" => nodes[1].css("p").inner_text,
+                "rate"  => document.at("meta[property='og:description']")['content'],
+                "addr"  => nodes[3].css("p").first.inner_text,
+                "url"   => url,
+              }
+              send_message client, data.channel, "#{info["name"]}\n  #{info["genre"]}\n  #{info["rate"]}\n  #{info["addr"]}\n  #{info["url"]}"
+            end
+          when "top"
+            limit.times do |i|
+              url = restaurant_links.delete_at(0)
+              html = `curl #{url}`
+              document = Nokogiri::HTML(html)
+              table = document.css("#contents-rstdata table.rst-data").first
+              nodes = table.css("tr")
+              info = {
+                "name"  => nodes[0].css("strong").inner_text,
+                "genre" => nodes[1].css("p").inner_text,
+                "rate"  => document.at("meta[property='og:description']")['content'],
+                "addr"  => nodes[3].css("p").first.inner_text,
+                "url"   => url,
+              }
+              send_message client, data.channel, "#{info["name"]}\n  #{info["genre"]}\n  #{info["rate"]}\n  #{info["addr"]}\n  #{info["url"]}"
+            end
+          end
         else
           guess = ""
           index.keys.each do |l|
