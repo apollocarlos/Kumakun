@@ -33,12 +33,12 @@ module KumaBot
             if $1.to_i > 1200
               max_page = 60
             else
-              max_page = ($1.to_f / 20).ceil.to_i
+              max_page = ($1.to_f / 20).ceil
             end
           end
 
           restaurant_links = Array.new
-          (1..max_page).each do |page|
+          (1..max_page.to_i).each do |page|
             search_url = "http://tabelog.com/#{station_code}/rstLst/#{page}/?SrtT=rt&sk=#{query}"
             html = `curl #{search_url}`
             html.scan(/data-rd-url=".*?(http:\/\/tabelog\.com.+?)" rel="ranking-num"/).each do |url|
