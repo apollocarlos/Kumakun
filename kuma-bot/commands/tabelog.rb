@@ -37,6 +37,7 @@ module KumaBot
             end
           end
 
+	  puts max_page
           restaurant_links = Array.new
           (1..max_page.to_i).each do |page|
             search_url = "http://tabelog.com/#{station_code}/rstLst/#{page}/?SrtT=rt&sk=#{query}"
