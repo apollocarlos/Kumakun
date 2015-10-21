@@ -8,7 +8,6 @@ module KumaBot
       IO.readlines("config/tabelog_area_code").each do |line|
         parts = line.split(/\t/)
         index[parts[1].chomp!] = parts[0]
-	puts index.inspect
       end
 
       match(/^kumakun tabelog\s+(?<location>.+?)\s+(?<expression>.+)$/) do |client, data, match|
@@ -34,15 +33,15 @@ module KumaBot
             if $1.to_i > 1200
               max_page = 60
             else
-              max_page = ($1.to_f / 20).ceil
+              max_page = ($1.to_f / 20).ceil.to_i
             end
           end
 
           restaurant_links = Array.new
-          (1..max_page.to_i).each do |page|
+          (1..max_page).each do |page|
             search_url = "http://tabelog.com/#{station_code}/rstLst/#{page}/?SrtT=rt&sk=#{query}"
             html = `curl #{search_url}`
-            html.scan(/data-rd-url="(.+?)" rel="ranking-num"/).each do |url|
+            html.scan(/data-rd-url=".*?(http:\/\/tabelog\.com.+?)" rel="ranking-num"/).each do |url|
               restaurant_links << url
             end
           end
