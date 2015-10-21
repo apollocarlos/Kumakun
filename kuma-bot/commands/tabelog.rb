@@ -20,7 +20,7 @@ module KumaBot
           if expression =~ /(.+)\s+--(random|top)(\d+)/
             query = $1
             mode = $2
-            limit = $3 if $3.to_i <= 20
+            limit = $3.to_i if $3.to_i <= 20
           else
             query = expression
           end
@@ -48,7 +48,7 @@ module KumaBot
 
           case mode
           when "random"
-            (1..limit.to_i).each do |i|
+            (1..limit).each do |i|
               index = Random.new.rand(restaurant_links.length)
               url = restaurant_links.delete_at(index)
               html = `curl #{url}`
@@ -65,7 +65,7 @@ module KumaBot
               send_message client, data.channel, "#{info["name"]}\n  #{info["genre"]}\n  #{info["rate"]}\n  #{info["addr"]}\n  #{info["url"]}"
             end
           when "top"
-            (1..limit.to_i).each do |i|
+            (1..limit).each do |i|
               url = restaurant_links.delete_at(0)
               html = `curl #{url}`
               document = Nokogiri::HTML(html)
