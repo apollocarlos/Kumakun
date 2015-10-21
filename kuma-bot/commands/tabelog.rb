@@ -8,6 +8,7 @@ module KumaBot
       IO.readlines("config/tabelog_area_code").each do |line|
         parts = line.split(/\t/)
         index[parts[1].chomp!] = parts[0]
+        puts parts[0]
       end
 
       match(/^kumakun tabelog\s+(?<location>.+?)\s+(?<expression>.+)$/) do |client, data, match|
