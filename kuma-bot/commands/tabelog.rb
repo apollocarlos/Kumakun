@@ -20,7 +20,7 @@ module KumaBot
           if expression =~ /(.+)\s+--(random|top)(\d+)/
             query = $1
             mode = $2
-            limit = $3 if $3 <= 20
+            limit = $3 if $3.to_i <= 20
           else
             query = expression
           end
