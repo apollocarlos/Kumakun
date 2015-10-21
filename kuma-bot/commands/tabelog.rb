@@ -51,13 +51,33 @@ module KumaBot
             (1..limit.to_i).each do |i|
               index = Random.new.rand(restaurant_links.length)
               url = restaurant_links.delete_at(index)
-              info = get_info(url)
+              html = `curl #{url}`
+              document = Nokogiri::HTML(html)
+              table = document.css("#contents-rstdata table.rst-data").first
+              nodes = table.css("tr")
+              info = {
+                "name"  => nodes[0].css("strong").inner_text,
+                "genre" => nodes[1].css("p").inner_text,
+                "rate"  => document.at("meta[property='og:description']")['content'],
+                "addr"  => nodes[3].css("p").first.inner_text,
+                "url"   => url,
+              }
               send_message client, data.channel, "#{info["name"]}\n  #{info["genre"]}\n  #{info["rate"]}\n  #{info["addr"]}\n  #{info["url"]}"
             end
           when "top"
             (1..limit.to_i).each do |i|
               url = restaurant_links.delete_at(0)
-              info = get_info(url)
+              html = `curl #{url}`
+              document = Nokogiri::HTML(html)
+              table = document.css("#contents-rstdata table.rst-data").first
+              nodes = table.css("tr")
+              info = {
+                "name"  => nodes[0].css("strong").inner_text,
+                "genre" => nodes[1].css("p").inner_text,
+                "rate"  => document.at("meta[property='og:description']")['content'],
+                "addr"  => nodes[3].css("p").first.inner_text,
+                "url"   => url,
+              }
               send_message client, data.channel, "#{info["name"]}\n  #{info["genre"]}\n  #{info["rate"]}\n  #{info["addr"]}\n  #{info["url"]}"
             end
           end
@@ -71,25 +91,6 @@ module KumaBot
           send_message client, data.channel, "Maybe you mean...\n```#{guess}```"
         end
       end
-
-      def self.get_info(restaurant_url)
-        html = `curl #{restaurant_url}`
-        document = Nokogiri::HTML(html)
-        table = document.css("#contents-rstdata table.rst-data").first
-        nodes = table.css("tr")
-        {
-          "name"  => trim(nodes[0].css("strong").inner_text),
-          "genre" => trim(nodes[1].css("p").inner_text),
-          "rate"  => document.at("meta[property='og:description']")['content'],
-          "addr"  => trim(nodes[3].css("p").first.inner_text),
-          "url"   => restaurant_url,
-        }
-      end
-
-      def self.trim(string)
-        string.gsub(%r{(^[\s#{$/}]+|[\s#{$/}]+$)}) { "" }
-      end
-
     end
   end
 end
