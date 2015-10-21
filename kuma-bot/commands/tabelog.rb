@@ -8,6 +8,7 @@ module KumaBot
       IO.readlines("config/tabelog_area_code").each do |line|
         parts = line.split(/\t/)
         index[parts[1].chomp!] = parts[0]
+        puts index[parts[1].chomp!]
       end
 
       match(/^kumakun tabelog\s+(?<location>.+?)\s+(?<expression>.+)$/) do |client, data, match|
@@ -37,7 +38,6 @@ module KumaBot
             end
           end
 
-	  send_message client, data.channel, "#{max_page}"
           restaurant_links = Array.new
           (1..max_page.to_i).each do |page|
             search_url = "http://tabelog.com/#{station_code}/rstLst/#{page}/?SrtT=rt&sk=#{query}"
