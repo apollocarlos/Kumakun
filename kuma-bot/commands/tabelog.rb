@@ -8,7 +8,6 @@ module KumaBot
       IO.readlines("config/tabelog_area_code").each do |line|
         parts = line.split(/\t/)
         index[parts[1].chomp!] = parts[0]
-        puts parts[0]
       end
 
       match(/^kumakun tabelog\s+(?<location>.+?)\s+(?<expression>.+)$/) do |client, data, match|
@@ -39,7 +38,7 @@ module KumaBot
           end
 
           restaurant_links = Array.new
-          max_page.times do |page|
+          (1..max_page).each do |page|
             search_url = "http://tabelog.com/#{station_code}/rstLst/#{page}/?SrtT=rt&sk=#{query}"
             html = `curl #{search_url}`
             html.scan(/data-rd-url="(.+?)" rel="ranking-num"/).each do |url|
@@ -49,14 +48,14 @@ module KumaBot
 
           case mode
           when "random"
-            limit.times do |i|
+            (1..limit).each do |i|
               index = Random.new.rand(restaurant_links.length)
               url = restaurant_links.delete_at(index)
               info = get_info(url)
               send_message client, data.channel, "#{info["name"]}\n  #{info["genre"]}\n  #{info["rate"]}\n  #{info["addr"]}\n  #{info["url"]}"
             end
           when "top"
-            limit.times do |i|
+            (1..limit).each do |i|
               url = restaurant_links.delete_at(0)
               info = get_info(url)
               send_message client, data.channel, "#{info["name"]}\n  #{info["genre"]}\n  #{info["rate"]}\n  #{info["addr"]}\n  #{info["url"]}"
