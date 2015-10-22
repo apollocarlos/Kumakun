@@ -56,8 +56,8 @@ module KumaBot
           case mode
           when "random"
             (1..limit).each do |i|
-              index = Random.new.rand(restaurant_links.length)
-              url = restaurant_links.delete_at(index)
+              idx = Random.new.rand(restaurant_links.length)
+              url = restaurant_links.delete_at(idx)
               info = parse_url(url, proxy)
               send_message client, data.channel, "*#{info["name"]}*\nGenre: #{info["genre"]}\nRate: #{info["rate"]}\nAddress: #{info["addr"]}\nWebpage: #{info["url"]}"
             end
