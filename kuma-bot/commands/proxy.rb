@@ -6,7 +6,7 @@ module KumaBot
         if proxy == ""
           send_message client, data.channel, "No available proxy now :("
         else
-	  send_message client, data.channel, proxy.inspect
+          send_message client, data.channel, proxy
         end
       end
 
@@ -14,7 +14,7 @@ module KumaBot
         list = fetch_proxy_list
         pm = Manager.new(list, 15)
         if pm.proxy_available?
-          pm.available_proxy
+          pm.available_proxy.to_s
         else
           ""
         end

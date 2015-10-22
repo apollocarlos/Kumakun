@@ -26,11 +26,12 @@ module KumaBot
             query = expression
           end
 
+          proxy = KumaBot::Commands::Proxy.get_proxy
           station_code = index[location]
 
           # calc max_page of restaurant list
           search_url = "http://tabelog.com/#{station_code}/rstLst/1/?SrtT=rt&sk=#{query}"
-          html = `curl #{search_url}`
+          html = `curl -x #{proxy} #{search_url}`
           if html =~ /全 <span class="text-num fs15"><strong>(\d+)<\/strong><\/span> 件/
             if $1.to_i > 1200
               max_page = 10
@@ -43,7 +44,7 @@ module KumaBot
           restaurant_links = Array.new
           (1..max_page.to_i).each do |page|
             search_url = "http://tabelog.com/#{station_code}/rstLst/#{page}/?SrtT=rt&sk=#{query}"
-            html = `curl #{search_url}`
+            html = `curl -x #{proxy} #{search_url}`
             html.scan(/data-rd-url=".*?(http:\/\/tabelog\.com.+?)" rel="ranking-num"/).each do |url|
               restaurant_links << url[0]
             end
@@ -55,13 +56,13 @@ module KumaBot
             (1..limit).each do |i|
               index = Random.new.rand(restaurant_links.length)
               url = restaurant_links.delete_at(index)
-              info = parser_url(url)
+              info = parse_url(url, proxy)
               send_message client, data.channel, "#{info["name"]}\n  #{info["genre"]}\n  #{info["rate"]}\n  #{info["addr"]}\n  #{info["url"]}"
             end
           when "top"
             (1..limit).each do |i|
               url = restaurant_links.delete_at(0)
-              info = parse_url(url)
+              info = parse_url(url, proxy)
               send_message client, data.channel, "#{info["name"]}\n  #{info["genre"]}\n  #{info["rate"]}\n  #{info["addr"]}\n  #{info["url"]}"
             end
           end
@@ -77,8 +78,8 @@ module KumaBot
         end
       end
 
-      def self.parse_url(url)
-        html = `curl #{url}`
+      def self.parse_url(url, proxy)
+        html = `curl -x #{proxy} #{url}`
         document = Nokogiri::HTML(html)
         table = document.css("#contents-rstdata table.rst-data").first
         nodes = table.css("tr")
