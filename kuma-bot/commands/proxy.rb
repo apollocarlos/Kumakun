@@ -6,7 +6,7 @@ module KumaBot
         if proxy == ""
           send_message client, data.channel, "No available proxy now :("
         else
-          send_message client, data.channel, proxy
+	  send_message client, data.channel, proxy.inspect
         end
       end
 
