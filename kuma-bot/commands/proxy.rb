@@ -23,7 +23,7 @@ module KumaBot
       def self.fetch_proxy_list
         list = Array.new
         html = `curl http://www.getproxy.jp`
-        html.scan(/<strong>(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{2,5})<\/strong>)/).each do |p|
+        html.scan(/<strong>(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{2,5})<\/strong>/).each do |p|
           list << p[0]
         end
         list
