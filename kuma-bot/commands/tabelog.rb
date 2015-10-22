@@ -28,11 +28,12 @@ module KumaBot
 
           proxy = Proxy.get_proxy
           station_code = index[location]
-          send_message client, data.channel, "#{proxy}, #{station_code}"
-=begin
+
           # calc max_page of restaurant list
           search_url = "http://tabelog.com/#{station_code}/rstLst/1/?SrtT=rt&sk=#{query}"
           html = `curl -x #{proxy} #{search_url}`
+          send_message client, data.channel, html
+=begin
           if html =~ /全 <span class="text-num fs15"><strong>(\d+)<\/strong><\/span> 件/
             if $1.to_i > 1200
               max_page = 10
