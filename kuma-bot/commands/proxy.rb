@@ -62,7 +62,7 @@ module KumaBot
 
           @addresses  = proxies
           @delay      = delay
-          @proxies    = proxies.map { |address| Proxy.new(address) }
+          @proxies    = proxies.map { |address| Node.new(address) }
         end
 
         def duplicates(list)
