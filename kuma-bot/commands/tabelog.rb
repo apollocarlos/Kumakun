@@ -28,7 +28,8 @@ module KumaBot
 
           proxy = Proxy.get_proxy
           station_code = index[location]
-
+          send_message client, data.channel, "#{proxy}, #{station_code}"
+=begin
           # calc max_page of restaurant list
           search_url = "http://tabelog.com/#{station_code}/rstLst/1/?SrtT=rt&sk=#{query}"
           html = `curl -x #{proxy} #{search_url}`
@@ -75,6 +76,7 @@ module KumaBot
             end
           end
           send_message client, data.channel, "Maybe you mean...\n```#{guess}```"
+=end
         end
       end
 
@@ -91,6 +93,7 @@ module KumaBot
           "url"   => url,
         }
       end
+
     end
   end
 end
