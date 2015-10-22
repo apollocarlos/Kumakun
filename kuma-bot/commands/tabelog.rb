@@ -16,6 +16,8 @@ module KumaBot
 
         # location matched
         if index.has_key? location
+          send_message client, data.channel, "Kumakun is running towards tabelog to fetch data for you..."
+
           mode = "top"
           limit = 5
           if expression =~ /(.+)\s+--(random|top)(\d+)/
