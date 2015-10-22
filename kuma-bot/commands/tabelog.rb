@@ -14,6 +14,7 @@ module KumaBot
         location = match['location']
         expression = match['expression'].strip
 
+        # location matched
         if index.has_key? location
           mode = "top"
           limit = 5
@@ -27,25 +28,44 @@ module KumaBot
 
           station_code = index[location]
 
-          max_page = 10
+          # calc max_page of restaurant list
           search_url = "http://tabelog.com/#{station_code}/rstLst/1/?SrtT=rt&sk=#{query}"
           html = `curl #{search_url}`
           if html =~ /全 <span class="text-num fs15"><strong>(\d+)<\/strong><\/span> 件/
-            if $1.to_i <= max_page * 19
+            if $1.to_i > 1200
+              max_page = 10
+            else
               max_page = ($1.to_f / 20).ceil
             end
           end
 
+          # get restaurant list
           restaurant_links = Array.new
           (1..max_page.to_i).each do |page|
             search_url = "http://tabelog.com/#{station_code}/rstLst/#{page}/?SrtT=rt&sk=#{query}"
-            html2 = `curl #{search_url}`
-            html2.scan(/data-rd-url=".*?(http:\/\/tabelog\.com.+?)" rel="ranking-num"/).each do |url|
+            html = `curl #{search_url}`
+            html.scan(/data-rd-url=".*?(http:\/\/tabelog\.com.+?)" rel="ranking-num"/).each do |url|
               restaurant_links << url[0]
             end
           end
 
-	  send_message client, data.channel, "#{restaurant_links.inspect}\n#{max_page}\n#{html}"
+          # choose
+          case mode
+          when "random"
+            (1..limit).each do |i|
+              index = Random.new.rand(restaurant_links.length)
+              url = restaurant_links.delete_at(index)
+              info = parser_url(url)
+              send_message client, data.channel, "#{info["name"]}\n  #{info["genre"]}\n  #{info["rate"]}\n  #{info["addr"]}\n  #{info["url"]}"
+            end
+          when "top"
+            (1..limit).each do |i|
+              url = restaurant_links.delete_at(0)
+              info = parse_url(url)
+              send_message client, data.channel, "#{info["name"]}\n  #{info["genre"]}\n  #{info["rate"]}\n  #{info["addr"]}\n  #{info["url"]}"
+            end
+          end
+        # location doesn't match, but we can guess
         else
           guess = ""
           index.keys.each do |l|
@@ -55,6 +75,20 @@ module KumaBot
           end
           send_message client, data.channel, "Maybe you mean...\n```#{guess}```"
         end
+      end
+
+      def self.parse_url(url)
+        html = `curl #{url}`
+        document = Nokogiri::HTML(html)
+        table = document.css("#contents-rstdata table.rst-data").first
+        nodes = table.css("tr")
+        {
+          "name"  => nodes[0].css("strong").inner_text,
+          "genre" => nodes[1].css("p").inner_text,
+          "rate"  => document.at("meta[property='og:description']")['content'],
+          "addr"  => nodes[3].css("p").first.inner_text,
+          "url"   => url,
+        }
       end
     end
   end
