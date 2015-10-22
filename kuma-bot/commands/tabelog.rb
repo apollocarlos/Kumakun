@@ -15,7 +15,7 @@ module KumaBot
         expression = match['expression'].strip
 
         if index.has_key? location
-          mode = "random"
+          mode = "top"
           limit = 5
           if expression =~ /(.+)\s+--(random|top)(\d+)/
             query = $1
@@ -39,7 +39,7 @@ module KumaBot
 
           restaurant_links = Array.new
 	  send_message client, data.channel, "#{max_page}"
-	  max_page.to_i.times do |page|
+          (1..max_page.to_i).each do |page|
 	    send_message client, data.channel, "1"
 	    send_message client, data.channel, "#{page}"
             search_url = "http://tabelog.com/#{station_code}/rstLst/#{page}/?SrtT=rt&sk=#{query}"
