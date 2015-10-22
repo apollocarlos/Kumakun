@@ -1,5 +1,6 @@
 require 'levenshtein'
 require 'nokogiri'
+require_relative 'proxy'
 
 module KumaBot
   module Commands
