@@ -1,6 +1,5 @@
 require 'levenshtein'
 require 'nokogiri'
-require_relative 'proxy'
 
 module KumaBot
   module Commands
@@ -27,7 +26,7 @@ module KumaBot
             query = expression
           end
 
-          proxy = KumaBot::Commands::Proxy.get_proxy
+          proxy = Proxy.get_proxy
           station_code = index[location]
 
           # calc max_page of restaurant list
