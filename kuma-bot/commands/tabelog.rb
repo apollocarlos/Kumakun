@@ -32,7 +32,7 @@ module KumaBot
           # calc max_page of restaurant list
           search_url = "http://tabelog.com/#{station_code}/rstLst/1/?SrtT=rt&sk=#{query}"
           html = `curl -x #{proxy} #{search_url}`
-          send_message client, data.channel, html
+          send_message client, data.channel, "#{search_url}"
 =begin
           if html =~ /全 <span class="text-num fs15"><strong>(\d+)<\/strong><\/span> 件/
             if $1.to_i > 1200
