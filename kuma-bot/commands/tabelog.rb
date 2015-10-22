@@ -27,7 +27,7 @@ module KumaBot
           end
 
           # proxy = Proxy.get_proxy
-          proxy = "https://117.135.250.136:81"
+          proxy = "117.135.250.136:81"
           station_code = index[location]
 
           # calc max_page of restaurant list
