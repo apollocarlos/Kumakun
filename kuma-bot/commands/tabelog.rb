@@ -26,8 +26,8 @@ module KumaBot
             query = expression
           end
 
-          # proxy = Proxy.get_proxy
           proxy = "117.135.250.136:81"
+          # proxy = Proxy.get_proxy
           station_code = index[location]
 
           # calc max_page of restaurant list
@@ -59,7 +59,7 @@ module KumaBot
               index = Random.new.rand(restaurant_links.length)
               url = restaurant_links.delete_at(index)
               info = parse_url(url, proxy)
-              send_message client, data.channel, "*#{info["name"]}*\nGenre  : #{info["genre"]}\nRate   : #{info["rate"]}\nAddress: #{info["addr"]}\nWebpage: #{info["url"]}"
+              send_message client, data.channel, "*#{info["name"]}*\nGenre: #{info["genre"]}\nRate: #{info["rate"]}\nAddress: #{info["addr"]}\nWebpage: #{info["url"]}"
             end
           when "top"
             (1..limit).each do |i|
