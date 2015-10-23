@@ -26,7 +26,7 @@ module KumaBot
             query = expression
           end
 
-	  proxy = "124.192.122.190:3128"
+	  proxy = "58.220.10.7:80"
           # proxy = "117.135.250.136:81"
           # proxy = Proxy.get_proxy
           station_code = index[location]
