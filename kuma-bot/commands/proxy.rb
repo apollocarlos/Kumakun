@@ -27,7 +27,7 @@ module KumaBot
 
       def self.fetch_proxy_list(area)
         url = "http://www.getproxy.jp/proxyapi?ApiKey=9fe2eac4e342725ac9c595ba7f0e9be1d09aa02b&area=#{area}&sort=requesttime&orderby=asc"
-	html = `curl -x 117.135.250.136:81 '#{url}'`
+        html = `curl '#{url}'`
         list = Array.new
         html.scan(/<ip>(.+?)<\/ip>/).each do |p|
           list << p[0]
