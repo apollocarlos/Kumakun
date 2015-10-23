@@ -52,6 +52,19 @@ module KumaBot
           end
 
           # choose
+          (1..limit).each do |i|
+            idx = 0
+            case mode
+            when "random"
+              idx = Random.new.rand(restaurant_links.length)
+            when "top"
+              idx = 0
+            end
+            url = restaurant_links.delete_at(idx)
+            info = parse_url(url, proxy)
+            send_message client, data.channel, "*#{info["name"]}*\nGenre: #{info["genre"]}\nRate: #{info["rate"]}\nAddress: #{info["addr"]}\nWebpage: #{info["url"]}"
+          end
+=begin
           case mode
           when "random"
             (1..limit).each do |i|
@@ -68,7 +81,7 @@ module KumaBot
               send_message client, data.channel, "*#{info["name"]}*\nGenre: #{info["genre"]}\nRate: #{info["rate"]}\nAddress: #{info["addr"]}\nWebpage: #{info["url"]}"
             end
           end
-
+=end
         # location doesn't match, but we can guess
         else
           guess = ""
