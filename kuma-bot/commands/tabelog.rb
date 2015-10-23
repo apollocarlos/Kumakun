@@ -34,7 +34,7 @@ module KumaBot
           search_url = "http://tabelog.com/#{station_code}/rstLst/1/?SrtT=rt&sk=#{query}"
           html = `curl -x #{proxy} '#{search_url}'`
           if html =~ /全 <span class="text-num fs15"><strong>(\d+)<\/strong><\/span> 件/
-            if $1.to_i > 1200
+            if $1.to_i > 180
               max_page = 10
             else
               max_page = ($1.to_f / 20).ceil
