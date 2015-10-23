@@ -27,7 +27,7 @@ module KumaBot
           end
 
           proxy = "117.135.250.136:81"
-          # proxy = Proxy.get_proxy
+          # proxy = Proxy.get_proxy(Proxy.fetch_proxy_list("US"))
           station_code = index[location]
 
           # calc max_page of restaurant list
@@ -64,24 +64,7 @@ module KumaBot
             info = parse_url(url, proxy)
             send_message client, data.channel, "*#{info["name"]}*\nGenre: #{info["genre"]}\nRate: #{info["rate"]}\nAddress: #{info["addr"]}\nWebpage: #{info["url"]}"
           end
-=begin
-          case mode
-          when "random"
-            (1..limit).each do |i|
-              idx = Random.new.rand(restaurant_links.length)
-              url = restaurant_links.delete_at(idx)
-              info = parse_url(url, proxy)
-              send_message client, data.channel, "*#{info["name"]}*\nGenre: #{info["genre"]}\nRate: #{info["rate"]}\nAddress: #{info["addr"]}\nWebpage: #{info["url"]}"
-            end
-          when "top"
-            (1..limit).each do |i|
-              idx = 0
-              url = restaurant_links.delete_at(idx)
-              info = parse_url(url, proxy)
-              send_message client, data.channel, "*#{info["name"]}*\nGenre: #{info["genre"]}\nRate: #{info["rate"]}\nAddress: #{info["addr"]}\nWebpage: #{info["url"]}"
-            end
-          end
-=end
+
         # location doesn't match, but we can guess
         else
           guess = ""
