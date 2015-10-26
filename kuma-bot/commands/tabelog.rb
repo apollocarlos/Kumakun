@@ -44,7 +44,7 @@ module KumaBot
           # get restaurant list
           restaurant_links = Array.new
           (1..max_page.to_i).each do |page|
-            search_url = "http://tabelog.com/#{station_code}/rstLst/#{page}/?SrtT=rt&sk=#{query}"
+            search_url = "http://tabelog.com/#{station_code}/rstLst/#{page}/?SrtT=rt&sw=#{query}"
             html = `curl -x #{proxy} '#{search_url}'`
             html.scan(/data-rd-url=".*?(http:\/\/tabelog\.com.+?)" rel="ranking-num"/).each do |url|
               restaurant_links << url[0]
