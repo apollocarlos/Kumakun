@@ -61,7 +61,8 @@ module KumaBot
               restaurant_links << url[0]
             end
           end
-
+	  send_message client, data.channel, restaurant_links.inspect
+=begin
           # choose
           (1..limit).each do |i|
             idx = 0
@@ -82,7 +83,7 @@ module KumaBot
 	    Webpage: #{info["url"]}
 	    "
           end
-
+=end
         # location doesn't match, but we can guess
         else
           guess = ""
