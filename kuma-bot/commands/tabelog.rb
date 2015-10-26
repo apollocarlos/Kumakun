@@ -43,7 +43,6 @@ module KumaBot
 
           # calc max_page of restaurant list
           search_url = "http://tabelog.com/#{station_code}/rstLst/?SrtT=rt&sw=#{keyword}&LstCos=0&LstCosT=#{cost}"
-	  send_message client, data.channel, search_url
           html = `curl -x #{proxy} '#{search_url}'`
           if html =~ /全 <span class="text-num fs15"><strong>(\d+)<\/strong><\/span> 件/
             if $1.to_i > 180
@@ -62,8 +61,7 @@ module KumaBot
               restaurant_links << url[0]
             end
           end
-	  send_message client, data.channel, restaurant_links.inspect
-=begin
+
           # choose
           (1..limit).each do |i|
             idx = 0
@@ -84,7 +82,7 @@ module KumaBot
 	    Webpage: #{info["url"]}
 	    "
           end
-=end
+
         # location doesn't match, but we can guess
         else
           guess = ""
