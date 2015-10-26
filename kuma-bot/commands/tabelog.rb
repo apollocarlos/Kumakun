@@ -74,13 +74,13 @@ module KumaBot
             url = restaurant_links.delete_at(idx)
             info = parse_url(url, proxy)
             send_message client, data.channel, "
-	    ================================================
-	    *#{info["name"]}*
-	    Genre: #{info["genre"]}
-	    Rate: #{info["rate"]}
-	    Address: #{info["addr"]}
-	    Webpage: #{info["url"]}
-	    "
+================================================
+*#{info["name"]}*
+  Genre: #{info["genre"]}
+  Rate: #{info["rate"]}
+  Address: #{info["addr"]}
+  Webpage: #{info["url"]}
+            "
           end
 
         # location doesn't match, but we can guess
