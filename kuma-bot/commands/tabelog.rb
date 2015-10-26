@@ -76,10 +76,10 @@ module KumaBot
             send_message client, data.channel, "
 ================================================
 *#{info["name"]}*
-  Genre: #{info["genre"]}
-  Rate: #{info["rate"]}
-  Address: #{info["addr"]}
-  Webpage: #{info["url"]}
+      Genre: #{info["genre"]}
+      Rate: #{info["rate"]}
+      Address: #{info["addr"]}
+      Webpage: #{info["url"]}
             "
           end
 
