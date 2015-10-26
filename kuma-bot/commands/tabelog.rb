@@ -31,7 +31,7 @@ module KumaBot
             cost = ($1.to_f / 1000).ceil.to_i
           end
           # keyword
-          if expression =~ /(.+)\s+--/
+          if expression =~ /([^\s]+)\s+--/
             keyword = $1
           else
             keyword = expression
