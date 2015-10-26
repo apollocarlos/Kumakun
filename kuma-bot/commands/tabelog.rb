@@ -50,7 +50,7 @@ module KumaBot
             else
               max_page = ($1.to_f / 20).ceil
             end
-	    send_message client, data.channel, max_page
+	    send_message client, data.channel, "#{max_page}"
           end
 
           # get restaurant list
