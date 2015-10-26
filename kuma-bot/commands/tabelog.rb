@@ -74,7 +74,7 @@ module KumaBot
             url = restaurant_links.delete_at(idx)
             info = parse_url(url, proxy)
             send_message client, data.channel, "
-================================================
+==========================================================
 *#{info["name"]}*
       Genre: #{info["genre"]}
       Rate: #{info["rate"]}
