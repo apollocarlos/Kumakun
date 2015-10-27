@@ -16,11 +16,10 @@ module KumaBot
 
         # location matched
         if station_index.has_key? location
-          keyword  = ""
-          mode     = "top"
-          limit    = 5
-          cost     = 0
-          needless = 0
+          keyword = ""
+          mode    = "top"
+          limit   = 5
+          cost    = 0
 
           # mode
           if expression =~ /--(random|top)(\d+)/
@@ -45,26 +44,27 @@ module KumaBot
           # calc max_page of restaurant list
           search_url = "http://tabelog.com/#{station_code}/rstLst/?SrtT=rt&sw=#{keyword}&LstCos=0&LstCosT=#{cost}"
           html = `curl -x #{proxy} '#{search_url}'`
-          needless = html.match(/店名に.*?全 <span class="text-num fs15"><strong>(\d+)<\/strong><\/span> 件/m)[1].to_i
-          total = html.match(/お店の情報に.*?全 <span class="text-num fs15"><strong>(\d+)<\/strong><\/span> 件/m)[1].to_i
-          if total > 180
-            max_page = 10
-          else
-            max_page = (total.to_f / 20).ceil
+
+          max_page = 1
+          matched = html.match(/店名に.*?全 <span class="text-num fs15"><strong>(\d+)<\/strong><\/span> 件/m)
+          unless matched.nil?
+            max_page = (matched[1].to_f / 20).ceil.to_i
           end
+          matched = html.match(/お店の情報に.*?全 <span class="text-num fs15"><strong>(\d+)<\/strong><\/span> 件/m)
+          unless matched.nil?
+            max_page = (matched[1].to_f / 20).ceil.to_i if max_page < (matched[1].to_f / 20).ceil.to_i
+          end
+          max_page = 10 if max_page > 10
 
           # get restaurant list
           restaurant_links = Array.new
-          (1..max_page.to_i).each do |page|
+          (1..max_page).each do |page|
             search_url = "http://tabelog.com/#{station_code}/rstLst/#{page}/?SrtT=rt&sw=#{keyword}&LstCosT=#{cost}"
             html = `curl -x #{proxy} '#{search_url}'`
             html.scan(/data-rd-url=".*?(http:\/\/tabelog\.com.+?)" rel="ranking-num"/).each do |url|
               restaurant_links << url[0]
             end
           end
-
-          # drop needless links
-          restaurant_links = restaurant_links.drop(needless)
 
           # choose
           (1..limit).each do |i|
