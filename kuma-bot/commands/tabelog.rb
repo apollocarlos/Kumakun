@@ -52,7 +52,6 @@ module KumaBot
           else
             max_page = (total.to_f / 20).ceil
           end
-          send_message client, data.channel, "#{needless}=====#{max_page}"
 
           # get restaurant list
           restaurant_links = Array.new
@@ -66,9 +65,7 @@ module KumaBot
 
           # drop needless links
           restaurant_links = restaurant_links.drop(needless)
-	  send_message client, data.channel, restaurant_links.inspect
 
-=begin
           # choose
           (1..limit).each do |i|
             idx = 0
@@ -89,7 +86,6 @@ module KumaBot
       Webpage: #{info["url"]}
             "
           end
-=end
 
         # location doesn't match, but we can guess
         else
