@@ -47,11 +47,10 @@ module KumaBot
           html = `curl -x #{proxy} '#{search_url}'`
           needless = html.match(/店名に.*?全 <span class="text-num fs15"><strong>(\d+)<\/strong><\/span> 件/m)[1].to_i
           total = html.match(/お店の情報に.*?全 <span class="text-num fs15"><strong>(\d+)<\/strong><\/span> 件/m)[1].to_i
-            if total > 180
-              max_page = 10
-            else
-              max_page = (total.to_f / 20).ceil
-            end
+          if total > 180
+            max_page = 10
+          else
+            max_page = (total.to_f / 20).ceil
           end
           send_message client, data.channel, "#{needless}=====#{max_page}"
 
