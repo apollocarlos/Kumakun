@@ -16,10 +16,11 @@ module KumaBot
 
         # location matched
         if station_index.has_key? location
-          keyword = ""
-          mode    = "top"
-          limit   = 5
-          cost    = 0
+          keyword  = ""
+          mode     = "top"
+          limit    = 5
+          cost     = 0
+          needless = 0
 
           # mode
           if expression =~ /--(random|top)(\d+)/
@@ -44,7 +45,10 @@ module KumaBot
           # calc max_page of restaurant list
           search_url = "http://tabelog.com/#{station_code}/rstLst/?SrtT=rt&sw=#{keyword}&LstCos=0&LstCosT=#{cost}"
           html = `curl -x #{proxy} '#{search_url}'`
-          if html =~ /全 <span class="text-num fs15"><strong>(\d+)<\/strong><\/span> 件/
+          if html =~ /店名に.*?全 <span class="text-num fs15"><strong>(\d+)<\/strong><\/span> 件/
+            needless = $1.to_i;
+          end
+          if html =~ /お店の情報に.*?全 <span class="text-num fs15"><strong>(\d+)<\/strong><\/span> 件/
             if $1.to_i > 180
               max_page = 10
             else
@@ -61,6 +65,9 @@ module KumaBot
               restaurant_links << url[0]
             end
           end
+
+          # drop needless links
+          restaurant_links = restaurant_links.drop(needless)
 
           # choose
           (1..limit).each do |i|
