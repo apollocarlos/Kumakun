@@ -45,14 +45,12 @@ module KumaBot
           # calc max_page of restaurant list
           search_url = "http://tabelog.com/#{station_code}/rstLst/?SrtT=rt&sw=#{keyword}&LstCos=0&LstCosT=#{cost}"
           html = `curl -x #{proxy} '#{search_url}'`
-          if html =~ /店名に.*?全 <span class="text-num fs15"><strong>(\d+)<\/strong><\/span> 件/
-            needless = $1.to_i;
-          end
-          if html =~ /お店の情報に.*?全 <span class="text-num fs15"><strong>(\d+)<\/strong><\/span> 件/
-            if $1.to_i > 180
+          needless = html.match(/店名に.*?全 <span class="text-num fs15"><strong>(\d+)<\/strong><\/span> 件/m)[1].to_i
+          total = html.match(/お店の情報に.*?全 <span class="text-num fs15"><strong>(\d+)<\/strong><\/span> 件/m)[1].to_i
+            if total > 180
               max_page = 10
             else
-              max_page = ($1.to_f / 20).ceil
+              max_page = (total.to_f / 20).ceil
             end
           end
           send_message client, data.channel, "#{needless}=====#{max_page}"
