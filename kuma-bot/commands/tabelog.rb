@@ -54,7 +54,7 @@ module KumaBot
           unless matched.nil?
             max_page = (matched[1].to_f / 20).ceil.to_i if max_page < (matched[1].to_f / 20).ceil.to_i
           end
-          max_page = 10 if max_page > 10
+          max_page = 3 if max_page > 3
 
           # get restaurant list
           restaurant_links = Array.new
