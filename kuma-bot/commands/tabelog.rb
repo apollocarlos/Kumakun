@@ -62,7 +62,7 @@ module KumaBot
             search_url = "http://tabelog.com/#{station_code}/rstLst/#{page}/?SrtT=rt&sw=#{keyword}&LstCosT=#{cost}"
             html = `curl -x #{proxy} '#{search_url}'`
             html.scan(/data-rd-url=".*?(http:\/\/tabelog\.com.+?)" rel="ranking-num"/).each do |url|
-              restaurant_links << url[0]
+              restaurant_links << url[0] unless restaurant_links.include?(url[0])
             end
           end
 
