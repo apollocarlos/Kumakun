@@ -26,7 +26,7 @@ module KumaBot
         end
       end
 
-      def self.handel_google_knowledge_graph(expression, client, data)
+      def self.handle_google_knowledge_graph(expression, client, data)
         query = expression.gsub(/ /, '+')
         response = `curl 'https://kgsearch.googleapis.com/v1/entities:search?query=#{query}&key=#{API}&limit=1&indent=True'`
         result = JSON.parse(response)
