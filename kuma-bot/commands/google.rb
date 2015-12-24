@@ -40,13 +40,18 @@ module KumaBot
           detail = item["result"]["detailedDescription"]["articleBody"]
           wiki = item["result"]["detailedDescription"]["url"]
           url = item["result"]["url"]
+          image = item["result"]["image"]
           score = item["resultScore"]
 
-          if url.nil?
-            message = "Name: #{name}\nDescription: #{description}\nDetail: #{detail}\nWiki: #{wiki}\nResultQuality: #{score}"
-          else
-            message = "Name: #{name}\nDescription: #{description}\nDetail: #{detail}\nWiki: #{wiki}\nHomepage: #{url}\nResultQuality: #{score}"
+          message = ""
+          unless image.nil?
+            message += "#{image["contentUrl"]}\n"
           end
+          message += "Name: #{name}\nDescription: #{description}\nDetail: #{detail}\nWiki: #{wiki}\n"
+          unless url.nil?
+            message += "HP: #{url}\n"
+          end
+          message += "ResultQuality: #{score}"
           send_message client, data.channel, message
         end
       end
