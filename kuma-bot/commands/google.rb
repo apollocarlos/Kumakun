@@ -27,13 +27,15 @@ module KumaBot
       end
 
       def self.handle_google_knowledge_graph(expression, client, data)
-        if expression =~ /(.+)\s+--([a-zA-Z][a-zA-Z])/
+        if expression =~ /(.+)\s+--([a-zA-Z]{2})/
           query = $1.gsub(/ /, '+')
           language = $2
         else
           query = expression.gsub(/ /, '+')
           language = "en"
         end
+        request = "https://kgsearch.googleapis.com/v1/entities:search?query=#{query}&key=#{API}&limit=1&indent=True&languages=#{language}"
+	send_message client, data.channel, "#{query}::::#{language}:::#{request}"
         response = `curl 'https://kgsearch.googleapis.com/v1/entities:search?query=#{query}&key=#{API}&limit=1&indent=True&languages=#{language}'`
         result = JSON.parse(response)
         item = result["itemListElement"][0]
