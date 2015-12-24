@@ -44,8 +44,10 @@ module KumaBot
           name = item["result"]["name"]
           type = item["result"]["@type"]
           description = item["result"]["description"]
-          detail = item["result"]["detailedDescription"]["articleBody"]
-          wiki = item["result"]["detailedDescription"]["url"]
+          unless item["result"]["detailedDescription"].nil?
+            detail = item["result"]["detailedDescription"]["articleBody"]
+            wiki = item["result"]["detailedDescription"]["url"]
+          end
           url = item["result"]["url"]
           image = item["result"]["image"]
           score = item["resultScore"]
@@ -58,7 +60,9 @@ module KumaBot
           unless description.nil?
             message += "Description: #{description}\n"
           end
-          message += "Detail: #{detail}\nWiki: #{wiki}\n"
+          unless item["result"]["detailedDescription"].nil?
+            message += "Detail: #{detail}\nWiki: #{wiki}\n"
+          end
           unless url.nil?
             message += "HP: #{url}\n"
           end
