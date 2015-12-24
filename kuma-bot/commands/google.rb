@@ -36,6 +36,7 @@ module KumaBot
           send_message client, data.channel, "I don't know about \"#{expression}\"!"
         else
           name = item["result"]["name"]
+          type = item["result"]["@type"]
           description = item["result"]["description"]
           detail = item["result"]["detailedDescription"]["articleBody"]
           wiki = item["result"]["detailedDescription"]["url"]
@@ -47,7 +48,11 @@ module KumaBot
           unless image.nil?
             message += "#{image["contentUrl"]}\n"
           end
-          message += "Name: #{name}\nDescription: #{description}\nDetail: #{detail}\nWiki: #{wiki}\n"
+          message += "Name: #{name}\nType: #{type}\n"
+          unless description.nil?
+            message += "Description: #{description}\n"
+          end
+          message += "Detail: #{detail}\nWiki: #{wiki}\n"
           unless url.nil?
             message += "HP: #{url}\n"
           end
