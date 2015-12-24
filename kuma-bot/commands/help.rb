@@ -4,7 +4,7 @@ module KumaBot
       match(/^kumakun help\s*$/) do |client, data, match|
         send_message client, data.channel, "what kumakun can do:
 	*Google Search*```kumakun g {web,image,news,video} {query} [--limitN] [--random]```
-	*Google Knowledge Graph*```kumakun g kg {query}```
+	*Google Knowledge Graph*```kumakun g kg {query} [-- `language codes defined in ISO 639` ]```
 	*Giphy: Search Animated GIFs on the Web*```kumakun {gif,sticker} {query}  # random fetch```
 	*FxRate*```kumakun fxrate {from} {to} [--date yyyy-MM-dd]```
 	*Calculator*```kumakun ={expression}```
