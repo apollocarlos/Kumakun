@@ -3,7 +3,8 @@ module KumaBot
     class Help < SlackRubyBot::Commands::Base
       match(/^kumakun help\s*$/) do |client, data, match|
         send_message client, data.channel, "what kumakun can do:
-	*Google*```kumakun g {web,image,news,video,blog,book} {query} [--limitN] [--random]```
+	*Google Search*```kumakun g {web,image,news,video} {query} [--limitN] [--random]```
+	*Google Knowledge Graph*```kumakun g kg {query}```
 	*Giphy: Search Animated GIFs on the Web*```kumakun {gif,sticker} {query}  # random fetch```
 	*FxRate*```kumakun fxrate {from} {to} [--date yyyy-MM-dd]```
 	*Calculator*```kumakun ={expression}```
