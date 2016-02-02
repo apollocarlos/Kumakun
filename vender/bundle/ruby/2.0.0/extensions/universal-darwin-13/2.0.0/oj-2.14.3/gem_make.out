@@ -1,0 +1,32 @@
+/System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/bin/ruby -r ./siteconf20160202-5945-13wxen6.rb extconf.rb
+>>>>> Creating Makefile for ruby version 2.0.0 on universal.x86_64-darwin13 <<<<<
+creating Makefile
+extconf.rb:62: warning: Insecure world writable dir /usr/local/Cellar in PATH, mode 040777
+
+make "DESTDIR=" clean
+
+make "DESTDIR="
+compiling cache8.c
+compiling circarray.c
+compiling compat.c
+compiling dump.c
+compiling err.c
+compiling fast.c
+compiling hash.c
+compiling hash_test.c
+compiling object.c
+compiling odd.c
+compiling oj.c
+compiling parse.c
+compiling reader.c
+compiling resolve.c
+compiling saj.c
+compiling scp.c
+compiling sparse.c
+compiling strict.c
+compiling val_stack.c
+linking shared-object oj/oj.bundle
+
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 oj.bundle ./.gem.20160202-5945-hrymgl/oj
+installing default oj libraries
